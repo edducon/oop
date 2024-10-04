@@ -25,13 +25,13 @@ public class Main {
                 case 2:
                     quadraticEquation(in);
                     break;
-                /*case 3:
+                case 3:
                     averageEvenNumbers(in);
                     break;
                 case 4:
                     findMaxNumbers(in);
                     break;
-                case 5:
+                /*case 5:
                     findMaxConsecutive(in);
                     break;*/
                 case 0:
@@ -40,7 +40,7 @@ public class Main {
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");
             }
-        } while (choice != 6);
+        } while (choice != 0);
     }
 
     public static void sortThreeNumbers(Scanner in){
@@ -93,5 +93,46 @@ public class Main {
         } else {
             System.out.println("Действительных корней нет");
         }
+    }
+
+    public static void averageEvenNumbers(Scanner in) {
+        int sum = 0, count = 0, number;
+
+        System.out.println("Введите числа (для завершения введите 0):");
+        do {
+            number = in.nextInt();
+            if (number != 0 && number % 2 == 0) {
+                sum += number;
+                count++;
+            }
+        } while (number != 0);
+
+        if (count > 0) {
+            double average = (double) sum / count;
+            System.out.println("Среднее арифметическое чётных чисел: " + average);
+        } else {
+            System.out.println("Четные числа не были получены.");
+        }
+    }
+
+    public static void findMaxNumbers(Scanner in){
+
+        int max = Integer.MIN_VALUE, number;
+
+        System.out.println("Введите число (для завершения введите 0): ");
+
+        do {
+            number = in.nextInt();
+            if (number != 0 & number > max) {
+
+                max = number;
+
+            }
+        } while (number != 0);
+            if (max != Integer.MIN_VALUE) {
+                System.out.println("Максимальное число: " +max);
+            } else {
+                System.out.println("Не получено ни одно число от пользователя");
+            }
     }
 }
