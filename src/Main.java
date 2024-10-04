@@ -25,10 +25,10 @@ public class Main {
                 case 2:
                     quadraticEquation(in);
                     break;
-                /*case 3:
+                case 3:
                     averageEvenNumbers(in);
                     break;
-                case 4:
+                /*case 4:
                     findMaxNumbers(in);
                     break;
                 case 5:
@@ -92,6 +92,26 @@ public class Main {
             System.out.println("Корень уравнения: " +root_1);
         } else {
             System.out.println("Действительных корней нет");
+        }
+    }
+
+    public static void averageEvenNumbers(Scanner in) {
+        int sum = 0, count = 0, number;
+
+        System.out.println("Введите числа (для завершения введите 0):");
+        do {
+            number = in.nextInt();
+            if (number != 0 && number % 2 == 0) {
+                sum += number;
+                count++;
+            }
+        } while (number != 0);
+
+        if (count > 0) {
+            double average = (double) sum / count;
+            System.out.println("Среднее арифметическое чётных чисел: " + average);
+        } else {
+            System.out.println("Четные числа не были получены.");
         }
     }
 }
