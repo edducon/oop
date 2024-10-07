@@ -115,24 +115,33 @@ public class Main {
         }
     }
 
-    public static void findMaxNumbers(Scanner in){
+    public static void findMaxNumbers(Scanner in) {
 
-        int max = Integer.MIN_VALUE, number;
+        System.out.println("Введите числа (для завершения введите 0): ");
 
-        System.out.println("Введите число (для завершения введите 0): ");
+        int max = Integer.MIN_VALUE;
+        int count = 0;
+        int number;
 
         do {
             number = in.nextInt();
-            if (number != 0 & number > max) {
 
+            if (number == 0) {
+                break;
+            } if (number > max) {
                 max = number;
+                count = 1;
+            } else if (number == max) {
+                count++;
+            }
+        } while (true);
 
-            }
-        } while (number != 0);
-            if (max != Integer.MIN_VALUE) {
-                System.out.println("Максимальное число: " +max);
-            } else {
-                System.out.println("Не получено ни одно число от пользователя");
-            }
+        if (max != Integer.MIN_VALUE){
+
+            System.out.println("Максимальное число " +max+ " встречается " +count+ "раз");
+
+        } else {
+            System.out.println("Не получено число");
+        }
     }
 }
