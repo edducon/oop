@@ -31,9 +31,9 @@ public class Main {
                 case 4:
                     findMaxNumbers(in);
                     break;
-                /*case 5:
+                case 5:
                     findMaxConsecutive(in);
-                    break;*/
+                    break;
                 case 0:
                     System.out.println("Выход из программы.");
                     break;
@@ -138,10 +138,47 @@ public class Main {
 
         if (max != Integer.MIN_VALUE){
 
-            System.out.println("Максимальное число " +max+ " встречается " +count+ "раз");
+            System.out.println("Максимальное число " +max+ " встречается " +count+ " раз(а)");
 
         } else {
             System.out.println("Не получено число");
+        }
+    }
+
+    public static void findMaxConsecutive (Scanner in){
+
+        System.out.println("Введите числа (для завершения введите 0): ");
+
+        int currentNumber = in.nextInt();
+        int previousNumber = currentNumber;
+        int currentCount = 1, maxCount = 1;
+
+        if (currentNumber == 0){
+            System.out.println("Не было получено число");
+            return;
+        }
+
+        do {
+
+            currentNumber = in.nextInt();
+
+            if (currentNumber == previousNumber & currentNumber != 0) {
+                currentCount++;
+            } else {
+                if (currentCount > maxCount) {
+                    maxCount = currentCount;
+                }
+                currentCount = 1;
+            }
+            previousNumber = currentNumber;
+        } while (currentNumber != 0);
+
+        if (maxCount > 1) {
+
+            System.out.println("Максимально количество одинаково подряд идущих элементов: " +maxCount);
+
+        } else {
+            System.out.println("Подряд идущие элементы отсуствуют");
         }
     }
 }
