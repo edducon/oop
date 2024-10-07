@@ -147,38 +147,33 @@ public class Main {
 
     public static void findMaxConsecutive (Scanner in){
 
-        System.out.println("Введите числа (для завершения введите 0): ");
+        System.out.println("Введите числа (для завершения ввода введите 0): ");
 
-        int currentNumber = in.nextInt();
-        int previousNumber = currentNumber;
-        int currentCount = 1, maxCount = 1;
-
-        if (currentNumber == 0){
-            System.out.println("Не было получено число");
-            return;
-        }
+        int previousNumber = Integer.MIN_VALUE;
+        int currentCount = 0;
+        int maxCount = 0;
+        int number;
 
         do {
+            number = in.nextInt();
+            if (number == 0) {
+                break;
+            }
 
-            currentNumber = in.nextInt();
-
-            if (currentNumber == previousNumber & currentNumber != 0) {
+            if (number == previousNumber) {
                 currentCount++;
             } else {
-                if (currentCount > maxCount) {
-                    maxCount = currentCount;
-                }
+                previousNumber = number;
                 currentCount = 1;
             }
-            previousNumber = currentNumber;
-        } while (currentNumber != 0);
 
-        if (maxCount > 1) {
+            if (currentCount > maxCount) {
+                maxCount = currentCount;
+            }
 
-            System.out.println("Максимально количество одинаково подряд идущих элементов: " +maxCount);
+        } while (true);
 
-        } else {
-            System.out.println("Подряд идущие элементы отсуствуют");
-        }
+        System.out.println("Максимальное количество подряд идущих одинаковых элементов: " + maxCount);
+
     }
 }
