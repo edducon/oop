@@ -20,7 +20,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    sortThreeNumbers(in);
+                    System.out.println(sortThreeNumbers(in));
                     break;
                 case 2:
                     quadraticEquation(in);
@@ -43,30 +43,19 @@ public class Main {
         } while (choice != 0);
     }
 
-    public static void sortThreeNumbers(Scanner in){
-
-        System.out.println("Введите 3 числа ( подряд без точек и запятых ): ");
+    public static String sortThreeNumbers(Scanner in) {
+        System.out.println("Введите 3 числа (подряд без точек и запятых):");
 
         int a = in.nextInt();
         int b = in.nextInt();
         int c = in.nextInt();
 
-        int temp_number;
+        int max = Math.max(a, Math.max(b, c));
+        int min = Math.min(a, Math.min(b, c));
+        int middle = (a + b + c) - max - min;
 
-        if (a > b){
-            temp_number = a;
-            a = b;
-            b = temp_number;
-        } if (b > c){
-            temp_number = b;
-            b = c;
-            c = temp_number;
-        } if (a > b) {
-            temp_number = a;
-            a = b;
-            b = temp_number;
-        }
-        System.out.println("Отсортированные числа: " + a + ", " + b + ", " + c);
+        return "Ваши числа в порядке возрастания: " + min + ", " + middle + ", " + max + ".";
+
     }
 
     public static void quadraticEquation(Scanner in){
