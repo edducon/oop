@@ -4,165 +4,306 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-
         int choice;
 
         do {
             System.out.println("\nВыберите задание.\nДля выбора введите номер задания");
-            System.out.println("[1] - Сортировка трех введенных чисел");
-            System.out.println("[2] - Нахождение корней квадратного уравнения");
-            System.out.println("[3] - Поиск среднего арифметического числа");
-            System.out.println("[4] - Вывод максимального количества элементов");
-            System.out.println("[5] - Вывод максильмного кол-ва идущих подряд элементов");
+            System.out.println("[1] - Найти позицию первого нуля в последовательности");
+            System.out.println("[2] - Число элементов, больших предыдущего");
+            System.out.println("[3] - Найти второй по величине элемент");
+            System.out.println("[4] - Максимальная длина монотонного участка");
+            System.out.println("[5] - Число групп из единиц, разделенных нулями");
+            System.out.println("[6] - Число вхождений фрагмента 1, 2, 3, 4, 5, 6");
+            System.out.println("[7] - Число вхождений фрагмента 1, 2, 1, 2, 1, 2");
+            System.out.println("[8] - Число локальных максимумов");
             System.out.println("\n[0] - Выход\n");
 
-            choice = in.nextInt();
+            try {
+                choice = in.nextInt();
+                in.nextLine();
+            } catch (Exception e) {
+                System.out.println("Ошибка ввода, попробуйте снова.");
+                in.nextLine();
+                continue;
+            }
 
             switch (choice) {
                 case 1:
-                    System.out.println(sortThreeNumbers(in));
+                    findFirstZeroPosition(in);
                     break;
                 case 2:
-                    quadraticEquation(in);
+                    countGreaterThanPrevious(in);
                     break;
                 case 3:
-                    averageEvenNumbers(in);
+                    findSecondLargest(in);
                     break;
                 case 4:
-                    findMaxNumbers(in);
+                    findMaxMonotoneSegment(in);
                     break;
                 case 5:
-                    findMaxConsecutive(in);
+                    countGroupsOfOnes(in);
+                    break;
+                case 6:
+                    countSequence123456(in);
+                    break;
+                case 7:
+                    countSequence121212(in);
+                    break;
+                case 8:
+                    countLocalMaxima(in);
                     break;
                 case 0:
                     System.out.println("Выход из программы.");
-                    break;
+                    return;
                 default:
                     System.out.println("Неверный выбор. Попробуйте снова.");
             }
-        } while (choice != 0);
+        } while (true);
     }
 
-    public static String sortThreeNumbers(Scanner in) {
-        System.out.println("Введите 3 числа (подряд без точек и запятых):");
+    public static void findFirstZeroPosition(Scanner in) {
+        int position = 1;
 
-        int a = in.nextInt();
-        int b = in.nextInt();
-        int c = in.nextInt();
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
 
-        int max = Math.max(a, Math.max(b, c));
-        int min = Math.min(a, Math.min(b, c));
-        int middle = (a + b + c) - max - min;
-
-        return "Ваши числа в порядке возрастания: " + min + ", " + middle + ", " + max + ".";
-
-    }
-
-    public static void quadraticEquation(Scanner in){
-
-        System.out.println("Введите корни уравнения (3 корня) ( подряд без точек и запятых ): ");
-
-        double a = in.nextDouble();
-        double b = in.nextDouble();
-        double c = in.nextDouble();
-
-        double discriminatn = b * b - (4 * a * c);
-
-        if (discriminatn > 0){
-
-            double root_1 = (-b + Math.sqrt(discriminatn)) / (2 * a);
-            double root_2 = (-b - Math.sqrt(discriminatn)) / (2 * a);
-
-            System.out.println("Корни уравнения: " + root_1 + "," +root_2);
-        } else if (discriminatn == 0) {
-
-            double root_1 = -b / (2 * a);
-
-            System.out.println("Корень уравнения: " +root_1);
-        } else {
-            System.out.println("Действительных корней нет");
-        }
-    }
-
-    public static void averageEvenNumbers(Scanner in) {
-        int sum = 0, count = 0, number;
-
-        System.out.println("Введите числа (для завершения введите 0):");
         do {
-            number = in.nextInt();
-            if (number != 0 && number % 2 == 0) {
-                sum += number;
-                count++;
+            try {
+                int num = in.nextInt();
+                if (num == 0) {
+                    System.out.println("Позиция первого нуля: " + position);
+                    in.nextLine();
+                    return;
+                }
+                position++;
+            } catch (Exception e) {
+                in.nextLine();
+                break;
             }
-        } while (number != 0);
+        } while (true);
 
-        if (count > 0) {
-            double average = (double) sum / count;
-            System.out.println("Среднее арифметическое чётных чисел: " + average);
-        } else {
-            System.out.println("Четные числа не были получены.");
-        }
+        System.out.println("0");
     }
 
-    public static void findMaxNumbers(Scanner in) {
-
-        System.out.println("Введите числа (для завершения введите 0): ");
-
-        int max = Integer.MIN_VALUE;
+    public static void countGreaterThanPrevious(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
         int count = 0;
-        int number;
+        int isFirst = 1;
+        int previous = 0;
 
         do {
-            number = in.nextInt();
-
-            if (number == 0) {
+            try {
+                int num = in.nextInt();
+                if (isFirst == 1) {
+                    count++;
+                    previous = num;
+                    isFirst = 0;
+                } else {
+                    if (num > previous) {
+                        count++;
+                    }
+                    previous = num;
+                }
+            } catch (Exception e) {
+                in.nextLine();
                 break;
-            } if (number > max) {
-                max = number;
-                count = 1;
-            } else if (number == max) {
-                count++;
             }
         } while (true);
 
-        if (max != Integer.MIN_VALUE){
+        System.out.println("Число элементов, больших предыдущего: " + count);
+    }
 
-            System.out.println("Максимальное число " +max+ " встречается " +count+ " раз(а)");
+    public static void findSecondLargest(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
+        int max = Integer.MIN_VALUE;
+        int secondMax = Integer.MIN_VALUE;
+        int countNumbers = 0;
 
+        do {
+            try {
+                int num = in.nextInt();
+                countNumbers++;
+                if (num > max) {
+                    secondMax = max;
+                    max = num;
+                } else if (num < max && num > secondMax) {
+                    secondMax = num;
+                }
+            } catch (Exception e) {
+                in.nextLine();
+                break;
+            }
+        } while (true);
+
+        if (countNumbers < 2 || secondMax == Integer.MIN_VALUE) {
+            System.out.println("нет");
         } else {
-            System.out.println("Не получено число");
+            System.out.println("Второй по величине элемент: " + secondMax);
         }
     }
 
-    public static void findMaxConsecutive (Scanner in){
-
-        System.out.println("Введите числа (для завершения ввода введите 0): ");
-
-        int previousNumber = Integer.MIN_VALUE;
-        int currentCount = 0;
-        int maxCount = 0;
-        int number;
+    public static void findMaxMonotoneSegment(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
+        int maxLength = 1;
+        int currentLength = 1;
+        int isFirst = 1;
+        int previous = 0;
 
         do {
-            number = in.nextInt();
-            if (number == 0) {
+            try {
+                int num = in.nextInt();
+                if (isFirst == 1) {
+                    previous = num;
+                    isFirst = 0;
+                } else {
+                    if (num >= previous) {
+                        currentLength++;
+                    } else {
+                        if (currentLength > maxLength) {
+                            maxLength = currentLength;
+                        }
+                        currentLength = 1;
+                    }
+                    previous = num;
+                }
+            } catch (Exception e) {
+                in.nextLine();
                 break;
             }
-
-            if (number == previousNumber) {
-                currentCount++;
-            } else {
-                previousNumber = number;
-                currentCount = 1;
-            }
-
-            if (currentCount > maxCount) {
-                maxCount = currentCount;
-            }
-
         } while (true);
 
-        System.out.println("Максимальное количество подряд идущих одинаковых элементов: " + maxCount);
+        if (currentLength > maxLength) {
+            maxLength = currentLength;
+        }
+        System.out.println("Максимальная длина монотонного участка: " + maxLength);
+    }
 
+    public static void countGroupsOfOnes(Scanner in) {
+        System.out.println("Введите последовательность из нулей и единиц, для завершения введите нечисловое значение:");
+        int inGroup = 0;
+        int count = 0;
+
+        do {
+            try {
+                int num = in.nextInt();
+                if (num == 1) {
+                    if (inGroup == 0) {
+                        count++;
+                        inGroup = 1;
+                    }
+                } else if (num == 0) {
+                    inGroup = 0;
+                }
+            } catch (Exception e) {
+                in.nextLine();
+                break;
+            }
+        } while (true);
+
+        System.out.println("Число групп из единиц: " + count);
+    }
+
+    public static void countSequence123456(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
+        int count = 0;
+        int state = 1;
+
+        do {
+            try {
+                int num = in.nextInt();
+                if (num == state) {
+                    state++;
+                    if (state == 7) {
+                        count++;
+                        state = 1;
+                    }
+                } else if (num == 1) {
+                    state = 2;
+                } else {
+                    state = 1;
+                }
+            } catch (Exception e) {
+                in.nextLine();
+                break;
+            }
+        } while (true);
+
+        System.out.println("Число вхождений фрагмента 1, 2, 3, 4, 5, 6: " + count);
+    }
+
+    public static void countSequence121212(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
+        int count = 0;
+
+        int n1, n2 = -1, n3 = -1, n4 = -1, n5 = -1, n6 = -1;
+
+        do {
+            try {
+                int num = in.nextInt();
+
+                n1 = n2;
+                n2 = n3;
+                n3 = n4;
+                n4 = n5;
+                n5 = n6;
+                n6 = num;
+
+                if (n1 == 1 && n2 == 2 && n3 == 1 && n4 == 2 && n5 == 1 && n6 == 2) {
+                    count++;
+                }
+            } catch (Exception e) {
+                in.nextLine();
+                break;
+            }
+        } while (true);
+
+        System.out.println("Число вхождений фрагмента 1, 2, 1, 2, 1, 2: " + count);
+    }
+
+    public static void countLocalMaxima(Scanner in) {
+        System.out.println("Введите числа, для завершения введите нечисловое значение:");
+        int previous, current, next;
+        int count = 0;
+
+        try {
+            previous = in.nextInt();
+        } catch (Exception e) {
+            in.nextLine();
+            System.out.println("0");
+            return;
+        }
+
+        try {
+            current = in.nextInt();
+        } catch (Exception e) {
+            in.nextLine();
+            System.out.println("Число локальных максимумов: 1");
+            return;
+        }
+
+        if (previous >= current) {
+            count++;
+        }
+
+        do {
+            try {
+                next = in.nextInt();
+
+                if (current >= previous && current >= next) {
+                    count++;
+                }
+
+                previous = current;
+                current = next;
+
+            } catch (Exception e) {
+                in.nextLine();
+                if (current >= previous) {
+                    count++;
+                }
+                break;
+            }
+        } while (true);
+
+        System.out.println("Число локальных максимумов: " + count);
     }
 }
